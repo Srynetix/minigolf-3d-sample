@@ -1,0 +1,62 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://assets/course_tiles1.tres" type="MeshLibrary" id=1]
+[ext_resource path="res://scenes/Main.gd" type="Script" id=2]
+[ext_resource path="res://scenes/Ball.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/Arrow.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/UI.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/GimbalCamera.tscn" type="PackedScene" id=6]
+
+[sub_resource type="ProceduralSky" id=3]
+
+[sub_resource type="Environment" id=1]
+background_mode = 2
+background_sky = SubResource( 3 )
+ambient_light_color = Color( 1, 1, 1, 1 )
+dof_blur_far_enabled = true
+dof_blur_far_quality = 2
+dof_blur_near_quality = 2
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 0.25, 0.25, 0.25 )
+
+[node name="Main" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource( 1 )
+data = {
+"cells": PoolIntArray( 65535, 0, 12, 65535, 1, 12, 65535, 2, 12, 65535, 3, 12, 65535, 4, 655366, 0, 65535, 1048588, 1, 65535, 1048588, 2, 65535, 1441803, 65532, 65535, 1048582, 65533, 65535, 1048588, 65534, 65535, 1048588, 65535, 65535, 3 )
+}
+__meta__ = {
+"_editor_clip_": 0,
+"_editor_floor_": Vector3( 0, 1, 0 )
+}
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 1 )
+
+[node name="Tee" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.975035, 1.49346, 9.03708 )
+
+[node name="Hole" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.39922, 0.833929, -1.00287 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Hole"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.11378, 0 )
+shape = SubResource( 2 )
+
+[node name="Ball" parent="." instance=ExtResource( 3 )]
+linear_velocity = Vector3( 0, 0, 0 )
+
+[node name="Arrow" parent="." instance=ExtResource( 4 )]
+
+[node name="UI" parent="." instance=ExtResource( 5 )]
+
+[node name="GimbalOut" parent="." instance=ExtResource( 6 )]
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, -0.461749, 0.887011, 0, -0.887011, -0.461749, 0, 12.051, 0 )
+light_energy = 0.5
+shadow_enabled = true
+directional_shadow_mode = 1
