@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/Xolonium-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://assets/bar_green.png" type="Texture" id=2]
 [ext_resource path="res://scenes/UI.gd" type="Script" id=3]
+[ext_resource path="res://addons/sxgd/modules/SxVirtualControls/SxVirtualJoystick.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/sxgd/modules/SxVirtualControls/SxVirtualControls.tscn" type="PackedScene" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 30
@@ -16,6 +18,7 @@ script = ExtResource( 3 )
 [node name="Margin" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 custom_constants/margin_right = 20
 custom_constants/margin_top = 20
 custom_constants/margin_left = 20
@@ -26,6 +29,7 @@ margin_left = 20.0
 margin_top = 20.0
 margin_right = 1004.0
 margin_bottom = 580.0
+mouse_filter = 2
 
 [node name="Shots" type="Label" parent="Margin/Container"]
 margin_right = 984.0
@@ -37,6 +41,7 @@ text = "Shots: 0"
 margin_top = 41.0
 margin_right = 984.0
 margin_bottom = 241.0
+mouse_filter = 2
 size_flags_vertical = 4
 value = 50.0
 texture_progress = ExtResource( 2 )
@@ -48,3 +53,27 @@ margin_right = 984.0
 margin_bottom = 282.0
 custom_fonts/font = SubResource( 1 )
 text = "Power"
+
+[node name="SxVirtualControls" parent="." instance=ExtResource( 5 )]
+display_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="SxVirtualControls"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_constants/margin_right = 60
+custom_constants/margin_top = 60
+custom_constants/margin_left = 60
+custom_constants/margin_bottom = 60
+
+[node name="SxVirtualJoystick" parent="SxVirtualControls/MarginContainer" instance=ExtResource( 4 )]
+margin_left = 60.0
+margin_top = 412.0
+margin_right = 188.0
+margin_bottom = 540.0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+action_axis_left = "cam_left"
+action_axis_right = "cam_right"
+action_axis_up = "cam_up"
+action_axis_down = "cam_down"

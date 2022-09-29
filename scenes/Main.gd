@@ -57,24 +57,26 @@ func change_state(new_state: int) -> void:
             _arrow.hide()
 
 func _process(delta: float) -> void:
-    if Input.is_action_just_pressed('click'):
-        match state:
-            StepState.SET_ANGLE:
-                change_state(StepState.SET_POWER)
-            StepState.SET_POWER:
-                change_state(StepState.SHOOT)
-
     match state:
         StepState.SET_POWER:
             animate_power_bar(delta)
 
     _gimbal.transform.origin = _ball.transform.origin
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
     if event is InputEventMouseMotion:
         var motion_event := event as InputEventMouseMotion
         if state == StepState.SET_ANGLE:
             _arrow.rotation.y -= motion_event.relative.x / 150
+
+    if event is InputEventMouseButton:
+        var btn_event := event as InputEventMouseButton
+        if btn_event.button_index in [BUTTON_LEFT, BUTTON_RIGHT] && btn_event.pressed:
+            match state:
+                StepState.SET_ANGLE:
+                    change_state(StepState.SET_POWER)
+                StepState.SET_POWER:
+                    change_state(StepState.SHOOT)
 
 func animate_angle(delta: float) -> void:
     _arrow.rotation.y += angle_speed * angle_change * delta
